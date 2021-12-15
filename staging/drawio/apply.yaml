@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: drawio
+spec:
+  destination:
+    name: ''
+    namespace: drawio
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: jgraph-drawio
+    repoURL: 'https://github.com/sommerit/jgraph-drawio-helmchart.git'
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+

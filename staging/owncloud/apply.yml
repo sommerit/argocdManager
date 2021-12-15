@@ -8,17 +8,40 @@ spec:
     namespace: owncloud
     server: 'https://kubernetes.default.svc'
   source:
-    path: ''
-    repoURL: 'https://charts.bitnami.com/bitnami'
-    targetRevision: 10.3.1
-    chart: owncloud
+    path: bitnami/owncloud
+    repoURL: 'https://github.com/sommerit/bitnami-charts-fork/'
+    targetRevision: HEAD
     helm:
       valueFiles: []
       parameters:
         - name: ingress.enabled
           value: 'true'
         - name: ingress.hostname
-          value: $STAGING_HOSTNAME
+          value: owncloud.stage.sommerit.eu
+        - name: persistence.enabled
+          value: 'true'
+        - name: persistence.size
+          value: '40Gi'
+        - name: persistence.existingClaim
+          value: 'stage-k8s01-owncloud-storage'
+        - name: mariadb.primary.persistence.existingClaim
+          value: 'stage-k8s01-owncloud-mariadb'
+        - name: ingress.tls
+          value: 'false'
+        - name: owncloudEmail
+          value: "example@example.de"
+        - name: service.type
+          value: ClusterIP
+        - name: ingress.pathType
+          value: Prefix
+        - name: ingress.path
+          value: "/"
+        - name: owncloudUsername
+          value: "admin"
+        - name: owncloudPassword
+          value: "changeMe"
+        - name: mariadb.auth.rootPassword
+          value: "secretpassword"
   project: default
   syncPolicy:
     syncOptions:

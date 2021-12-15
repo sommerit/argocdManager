@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cachet
+spec:
+  destination:
+    name: ''
+    namespace: cachet
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://charts.deliveryhero.io/'
+    targetRevision: 1.2.9
+    chart: cachet
+    helm:
+      parameters:
+        - name: env.private.DB_PASSWORD
+          value: secret
+        - name: env.private.MAIL_PASSWORD
+          value: secret
+        - name: env.private.MAIL_USERNAME
+          value: bsommer
+        - name: env.private.APP_KEY
+          value: fadsf432r23r
+        - name: database.create
+          value: 'true'
+  project: default
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+      - CreateNamespace=true
+    automated:
+      prune: false
+      selfHeal: false
+
